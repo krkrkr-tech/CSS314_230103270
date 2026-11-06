@@ -1,4 +1,3 @@
-"""Fit alpha from weak-scaling runtime data and emit comparison curves."""
 from __future__ import annotations
 
 import argparse
@@ -17,7 +16,6 @@ def main() -> None:
         parser.error("at least two processor counts are required")
     base = float(rows[0]["mean_seconds"])
     points = [(int(r["threads"]), base / float(r["mean_seconds"])) for r in rows]
-    # S_G(P) = P - alpha(P-1); least squares through the fixed intercept at P=1.
     numerator = sum((p - 1) * (p - s) for p, s in points)
     denominator = sum((p - 1) ** 2 for p, _ in points)
     alpha = numerator / denominator if denominator else 0.0

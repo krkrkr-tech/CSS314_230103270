@@ -1,4 +1,3 @@
-"""Create Task 24's vector comparison plot from fit_gustafson.py output."""
 from __future__ import annotations
 
 import argparse

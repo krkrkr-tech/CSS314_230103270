@@ -1,4 +1,3 @@
-"""Export Amdahl/Gustafson curves for arbitrary processor counts."""
 from __future__ import annotations
 
 import argparse
