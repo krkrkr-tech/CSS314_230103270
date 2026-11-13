@@ -12,7 +12,7 @@ def fma_worker(iters, results):
         for j in range(16): vals[j]=vals[j]*1.0000001+0.1
     results.put(sum(vals))
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--bytes",type=int,default=96_000_000); ap.add_argument("--flops",type=int,default=80_000_000); ap.add_argument("--processes",type=int,default=physical_cores()); ap.add_argument("--runs",type=int,default=3); ap.add_argument("--student-id",default="230103270")
+    ap=argparse.ArgumentParser(); ap.add_argument("--bytes",type=int,default=64_000_000); ap.add_argument("--flops",type=int,default=60_000_000); ap.add_argument("--processes",type=int,default=physical_cores()); ap.add_argument("--runs",type=int,default=3); ap.add_argument("--student-id",default="230103270")
     a=ap.parse_args(); p=max(1,a.processes); size=a.bytes; aa=shared_memory.SharedMemory(create=True,size=size); bb=shared_memory.SharedMemory(create=True,size=size)
     try:
         def copy(): 

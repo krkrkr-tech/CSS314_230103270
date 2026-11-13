@@ -28,7 +28,7 @@ def one_run(p, stride, total):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--total", type=int, default=24_000_000)
+    ap.add_argument("--total", type=int, default=16_000_000)
     ap.add_argument("--processes", type=int, default=min(mp.cpu_count(), 4))
     ap.add_argument("--warmup", type=int, default=2); ap.add_argument("--runs", type=int, default=7)
     ap.add_argument("--student-id", default="230103270")

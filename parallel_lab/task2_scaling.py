@@ -20,8 +20,8 @@ def trial(pool, n, p):
     return sum(pool.map(kernel, [(i, min(n, i + step)) for i in range(0, n, step)]))
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--n",type=int,default=1_600_000)
-    ap.add_argument("--n0",type=int,default=250_000); ap.add_argument("--max-processes",type=int,default=mp.cpu_count())
+    ap=argparse.ArgumentParser(); ap.add_argument("--n",type=int,default=1_200_000)
+    ap.add_argument("--n0",type=int,default=200_000); ap.add_argument("--max-processes",type=int,default=mp.cpu_count())
     ap.add_argument("--runs",type=int,default=3); ap.add_argument("--warmup",type=int,default=1); ap.add_argument("--student-id",default="230103270")
     a=ap.parse_args(); maxp=max(1,min(a.max_processes,mp.cpu_count())); strong={}
     with mp.Pool(maxp) as pool:

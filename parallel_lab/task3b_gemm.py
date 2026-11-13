@@ -31,7 +31,7 @@ def gemm_worker(name_a,name_b,name_c,n,lo,hi,variant,bs):
         del A,B,C
     finally:a.close();b.close();c.close()
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--n",type=int,default=384);ap.add_argument("--processes",type=int,default=min(4,mp.cpu_count()));ap.add_argument("--runs",type=int,default=1);ap.add_argument("--student-id",default="230103270");a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument("--n",type=int,default=256);ap.add_argument("--processes",type=int,default=min(4,mp.cpu_count()));ap.add_argument("--runs",type=int,default=1);ap.add_argument("--student-id",default="230103270");a=ap.parse_args()
     n=a.n;p=max(1,a.processes); sizes=[4,8,12,16,24,32,48,64,96,128]; A=shared_memory.SharedMemory(create=True,size=8*n*n);B=shared_memory.SharedMemory(create=True,size=8*n*n)
     try:
         import array; av=array.array("d",[0.001]*(n*n));bv=array.array("d",[0.002]*(n*n)); A.buf[:]=av.tobytes();B.buf[:]=bv.tobytes()
