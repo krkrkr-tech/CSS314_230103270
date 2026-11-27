@@ -1,5 +1,3 @@
-"""Instructor reference solution for the OpenMP Python practical lab."""
-
 import hashlib
 import json
 import math
