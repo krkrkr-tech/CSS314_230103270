@@ -1,0 +1,168 @@
+{
+  "student_id": 230103270,
+  "student_name": "Gaziz Kairat",
+  "student_parameters": {
+    "N_T1": 4007168,
+    "BINS_T1": 56,
+    "ITERS_T2": 38870000,
+    "PAD_STRIDE": 8,
+    "ROWS_T3": 13904,
+    "SKEW_MOD": 45,
+    "GRID_H": 448,
+    "GRID_W": 512,
+    "OMEGA_SOR": 1.7349999999999999
+  },
+  "diagnoses": {
+    "DIAGNOSIS_T1": "Each histogram increment is a read-modify-write sequence, so concurrent workers can overwrite updates and lose counts. The weighted-sum update has the same race. Floating-point addition is not associative, so changing the grouping or order of additions can change low bits even when integer increments are atomic. The safe kernel uses private buffers and a fixed thread-index reduction; exact integer limbs make weighted totals independent of the OpenMP thread count.",
+    "DIAGNOSIS_T2": "In the unpadded array, separate workers repeatedly write different int64 slots that share a 64-byte cache line. MESI coherence must transfer that line into each writer's exclusive state and invalidate other cores' copies, causing cache-line ping-pong despite the absence of a logical data race. Padding places each active slot on a distinct cache line while keeping the same recurrence and store frequency. The timing ratio is hardware- and runtime-dependent, so the recorded measurement is reported rather than assumed.",
+    "DIAGNOSIS_T3": "A contiguous prange partition can assign neighboring rows to one worker, so a concentration of expensive rows near a partition boundary can leave other workers idle at the barrier. The balanced kernel uses a modular permutation with a stride coprime to the row count, distributing each worker's contiguous iteration block across the full workload. It retains the same per-row arithmetic and writes each result to its original row, so the numerical output is unchanged. Per-thread operation counters measure the achieved balance; this deterministic interleaving avoids requiring a contended shared atomic cursor."
+  },
+  "task_results": {
+    "task_1": {
+      "lost_counts_10_runs": [
+        794910,
+        827928,
+        828184,
+        833407,
+        854751,
+        868919,
+        887249,
+        855571,
+        809777,
+        859805
+      ],
+      "max_histogram_bin_discrepancy": 16161,
+      "max_weighted_sum_discrepancy": 23833.22513565296,
+      "safe_histogram_total": 4007168,
+      "safe_weighted_sum_total": 5508699.80070563,
+      "safe_worker_hits_at_8_threads": [
+        500896,
+        500896,
+        500896,
+        500896,
+        500896,
+        500896,
+        500896,
+        500896
+      ],
+      "safe_outputs_bit_identical_at_1_2_4_8_threads": true
+    },
+    "task_2": {
+      "iterations_per_worker": 38870000,
+      "pad_stride_int64": 8,
+      "cache_line_padding_bytes": 64,
+      "benchmarks_by_thread_count": {
+        "1": {
+          "unpadded_seconds": 0.08685879991389811,
+          "padded_seconds": 0.0890478000510484,
+          "speedup_padded_vs_unpadded": 0.9754176954860715,
+          "active_workers": 1
+        },
+        "2": {
+          "unpadded_seconds": 0.08958909986540675,
+          "padded_seconds": 0.08943650010041893,
+          "speedup_padded_vs_unpadded": 1.0017062358747992,
+          "active_workers": 2
+        },
+        "4": {
+          "unpadded_seconds": 0.08855240000411868,
+          "padded_seconds": 0.08918399992398918,
+          "speedup_padded_vs_unpadded": 0.9929180130919357,
+          "active_workers": 4
+        },
+        "8": {
+          "unpadded_seconds": 0.0900290000718087,
+          "padded_seconds": 0.09367639990523458,
+          "speedup_padded_vs_unpadded": 0.9610638342515758,
+          "active_workers": 8
+        }
+      },
+      "equality_verified_at_all_thread_counts": true
+    },
+    "task_3": {
+      "static_seconds_at_8_threads": 0.058835400035604835,
+      "balanced_seconds_at_8_threads": 0.056660099886357784,
+      "static_load_imbalance_ratio": 1.0159370723888608,
+      "balanced_load_imbalance_ratio": 1.0037236263928242,
+      "balanced_interleave_stride": 7,
+      "max_output_difference": 0.0,
+      "static_operations_per_worker": [
+        1213165,
+        1203050,
+        1199174,
+        1210717,
+        1197134,
+        1207070,
+        1207045,
+        1194134
+      ],
+      "balanced_operations_per_worker": [
+        1205245,
+        1202390,
+        1202833,
+        1206530,
+        1202054,
+        1204658,
+        1203901,
+        1203878
+      ],
+      "all_8_workers_participated": true
+    },
+    "task_4": {
+      "grid_shape": [
+        448,
+        512
+      ],
+      "omega": 1.7349999999999999,
+      "red_black_sweeps": 600,
+      "benchmarks_by_thread_count": {
+        "1": {
+          "seconds": 0.5860145001206547,
+          "speedup_vs_1_thread": 1.0
+        },
+        "2": {
+          "seconds": 0.3760389999952167,
+          "speedup_vs_1_thread": 1.5583875612053772
+        },
+        "4": {
+          "seconds": 0.21605990012176335,
+          "speedup_vs_1_thread": 2.7122779367684546
+        },
+        "8": {
+          "seconds": 0.17535899998620152,
+          "speedup_vs_1_thread": 3.341798825077506
+        }
+      },
+      "final_max_cell_delta_by_thread_count": {
+        "1": 0.05156757362203024,
+        "2": 0.05156757362203024,
+        "4": 0.05156757362203024,
+        "8": 0.05156757362203024
+      },
+      "max_abs_difference_from_1_thread_by_thread_count": {
+        "1": 0.0,
+        "2": 0.0,
+        "4": 0.0,
+        "8": 0.0
+      },
+      "worker_hits_at_8_threads": [
+        67200,
+        67200,
+        67200,
+        67200,
+        67200,
+        67200,
+        66000,
+        66000
+      ]
+    }
+  },
+  "verification_bundle": {
+    "instructor": "Instructor - Sufyan bin Uzayr",
+    "student_name": "Gaziz Kairat",
+    "student_id": 230103270,
+    "omp_layer": "omp",
+    "cpu_cores": 16,
+    "verification_digest": "6813AA19BA787D4EFAAF"
+  }
+}
